@@ -18,14 +18,15 @@ class TodoListViewController: UITableViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        //TODO: Remove this default starter item. Or replace with something better
         let newItem1 = Item()
         newItem1.title = "Find Mike"
-        newItem1.isDone = true
+//        newItem1.isDone = true
         itemArray.append(newItem1)
         
-//        if let items = defaults.array(forKey: "TodoListArray") as? [String] {
-//            itemArray = items
-//        }
+        if let items = defaults.array(forKey: "TodoListArray") as? [Item] {
+            itemArray = items
+        }
     }
 
     // MARK - TableView Datasource Method
@@ -36,11 +37,13 @@ class TodoListViewController: UITableViewController {
         
         cell.textLabel?.text = currentItem.title
         
-        if currentItem.isDone {
-            cell.accessoryType = .checkmark
-        } else {
-            cell.accessoryType = .none
-        }
+        cell.accessoryType = currentItem.isDone ? .checkmark : .none // sets accessory type based on true or false. replaces following lines of code
+        
+//        if currentItem.isDone {
+//            cell.accessoryType = .checkmark
+//        } else {
+//            cell.accessoryType = .none
+//        }
         
         return cell
     }
@@ -83,7 +86,7 @@ class TodoListViewController: UITableViewController {
             self.itemArray.append(newItem)
             
             // sets the UserDefaults to the current itemArray to be used on next launch
-//            self.defaults.set(self.itemArray, forKey: "TodoListArray")
+            self.defaults.set(self.itemArray, forKey: "TodoListArray")
             
             self.tableView.reloadData() // refreshes the tableView, duh
             
