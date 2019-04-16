@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Item {
+class Item: Codable { // inherits from Encodable to be able to be used with Encoder. Makes sense.
     var title: String = ""
     var isDone: Bool = false
 }
