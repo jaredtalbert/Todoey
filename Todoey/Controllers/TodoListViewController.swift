@@ -66,9 +66,10 @@ class TodoListViewController: UITableViewController {
         
         itemArray[indexPath.row].isDone.toggle()
         
-        saveItem() // updates the storage .plist with newly toggled status
+//        context.delete(itemArray[indexPath.row]) // submits changes to persistent storage context to be finalized
+//        itemArray.remove(at: indexPath.row) // removes from the array, for updating the TableView
         
-        tableView.reloadData()
+        saveItem() // finalizes context changes
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -124,16 +125,39 @@ class TodoListViewController: UITableViewController {
         self.tableView.reloadData() // refreshes the tableView, duh
     }
     
-    func loadItems() {
-        let request: NSFetchRequest<Item> = Item.fetchRequest()
+    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest()) {
         
         do {
             itemArray = try context.fetch(request)
         } catch {
             print("!!! ERROR - Unable to fetch data from context: \(error)")
         }
+        
+        tableView.reloadData()
     }
-    
-
 }
 
+// MARK: Search Bar Functionality
+extension TodoListViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
+        
+        request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+        
+        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        
+        loadItems(with: request)
+    }
+    
+    // if the user clears the search bar, show all items
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text?.count == 0 {
+            loadItems()
+            
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder() // deselect the search bar, also closes keyboard
+            }
+            
+        }
+    }
+}
