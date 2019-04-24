@@ -13,6 +13,7 @@
 		4D2F649721BC8A5700F8FD11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D2F649621BC8A5700F8FD11 /* Assets.xcassets */; };
 		4D2F649A21BC8A5700F8FD11 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D2F649821BC8A5700F8FD11 /* LaunchScreen.storyboard */; };
 		4DB18D75226FFB7A0089C50C /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4DB18D73226FFB7A0089C50C /* DataModel.xcdatamodeld */; };
+		4DE559222271103E00DC34D1 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE559212271103E00DC34D1 /* CategoryViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		4D2F649921BC8A5700F8FD11 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4D2F649B21BC8A5700F8FD11 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4DB18D74226FFB7A0089C50C /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
+		4DE559212271103E00DC34D1 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 		4D8FC947224ADFD80005CCF7 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				4DE559212271103E00DC34D1 /* CategoryViewController.swift */,
 				4D2F649121BC8A5400F8FD11 /* TodoListViewController.swift */,
 			);
 			path = Controllers;
@@ -171,6 +174,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DE559222271103E00DC34D1 /* CategoryViewController.swift in Sources */,
 				4D2F649221BC8A5400F8FD11 /* TodoListViewController.swift in Sources */,
 				4DB18D75226FFB7A0089C50C /* DataModel.xcdatamodeld in Sources */,
 				4D2F649021BC8A5400F8FD11 /* AppDelegate.swift in Sources */,

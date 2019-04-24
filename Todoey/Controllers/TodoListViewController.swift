@@ -13,25 +13,15 @@ class TodoListViewController: UITableViewController {
     
     var itemArray = [Item]()
     
-    let defaults = UserDefaults.standard
-    
-    
+//    let defaults = UserDefaults.standard
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext //downcast singleton to AppDelegate to allow us to access the container
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
 
         loadItems()
-        
-        // TODO: Remove this, it's just for debugging purposes.
-//        let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        
-//        if let items = defaults.array(forKey: "TodoListArray") as? [Item] {
-//            itemArray = items
-//        }
     }
 
     // MARK - TableView Datasource Method
@@ -43,12 +33,6 @@ class TodoListViewController: UITableViewController {
         cell.textLabel?.text = currentItem.title
         
         cell.accessoryType = currentItem.isDone ? .checkmark : .none // sets accessory type based on true or false. replaces following lines of code
-        
-//        if currentItem.isDone {
-//            cell.accessoryType = .checkmark
-//        } else {
-//            cell.accessoryType = .none
-//        }
         
         return cell
     }
@@ -62,10 +46,11 @@ class TodoListViewController: UITableViewController {
     // MARK - TableView Delegate Methods
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print(itemArray[indexPath.row])
         
         itemArray[indexPath.row].isDone.toggle()
         
+        
+        // TODO: Make deleting items work better
 //        context.delete(itemArray[indexPath.row]) // submits changes to persistent storage context to be finalized
 //        itemArray.remove(at: indexPath.row) // removes from the array, for updating the TableView
         
