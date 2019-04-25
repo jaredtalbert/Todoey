@@ -7,9 +7,11 @@
 //
 
 import UIKit
-import CoreData
+import RealmSwift
 
 class CategoryViewController: UITableViewController {
+    
+    let realm = try! Realm()
     
     var categoryArray = [Category]()
     
@@ -18,7 +20,7 @@ class CategoryViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadCategories()
+//        loadCategories()
     }
     
     
@@ -57,9 +59,11 @@ class CategoryViewController: UITableViewController {
         }
     }
     
-    func saveCategory() {
+    func saveCategory(category: Category) {
         do {
-            try self.context.save()
+            try realm.write {
+                realm.add(category)
+            }
         } catch {
             print("!!! ERROR - Unable to save context: \(error)")
         }
@@ -67,15 +71,15 @@ class CategoryViewController: UITableViewController {
         self.tableView.reloadData()
     }
     
-    func loadCategories(with request: NSFetchRequest<Category> = Category.fetchRequest()) {
-        do {
-            try categoryArray = self.context.fetch(request)
-        } catch {
-            print("!!! ERROR - Unable to fetch context: \(error)")
-        }
-        
-        self.tableView.reloadData()
-    }
+//    func loadCategories(with request: NSFetchRequest<Category> = Category.fetchRequest()) {
+//        do {
+//            try categoryArray = self.context.fetch(request)
+//        } catch {
+//            print("!!! ERROR - Unable to fetch context: \(error)")
+//        }
+//
+//        self.tableView.reloadData()
+//    }
     
     // MARK: Add new categories
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
@@ -84,12 +88,12 @@ class CategoryViewController: UITableViewController {
         let alert = UIAlertController(title: "Add Category", message: "", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "Add", style: .default) { (UIAlertAction) in
-            let newCategory = Category(context: self.context)
+            let newCategory = Category()
             
             newCategory.name = textField.text!
             self.categoryArray.append(newCategory)
             
-            self.saveCategory()
+            self.saveCategory(category: newCategory)
         }
         
         alert.addTextField { (categoryTextField) in

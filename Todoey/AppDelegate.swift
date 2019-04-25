@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,7 +21,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // DEBUG - print UserDefaults path, just to see
         
-        print(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last! as String)
+//        print(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last! as String)
+        
+        print(Realm.Configuration.defaultConfiguration.fileURL)
+        
+        do {
+            let realm = try Realm()
+        } catch {
+            print("!!! ERROR - Unable to create/write to realm: \(error)")
+        }
         
         return true
     }
