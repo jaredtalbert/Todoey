@@ -13,14 +13,14 @@ class CategoryViewController: UITableViewController {
     
     let realm = try! Realm()
     
-    var categoryArray = [Category]()
+    var categoryArray: Results<Category>?
     
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+//    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        loadCategories()
+        loadCategories()
     }
     
     
@@ -29,9 +29,9 @@ class CategoryViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
         
-        let currentItem = categoryArray[indexPath.row]
+//        let currentItem = categoryArray[indexPath.row]
         
-        cell.textLabel?.text = currentItem.name
+        cell.textLabel?.text = categoryArray?[indexPath.row].name ?? "No Categories Added Yet!"
         
 //        cell.accessoryType = currentItem.isDone ? .checkmark : .none // sets accessory type based on true or false. replaces following lines of code
         
@@ -41,7 +41,7 @@ class CategoryViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return categoryArray.count
+        return categoryArray?.count ?? 1
     }
     
     // MARK: TableView Delegate Methods
@@ -55,7 +55,7 @@ class CategoryViewController: UITableViewController {
         let destinationVC = segue.destination as! TodoListViewController // because we know where it's taking us
         
         if let indexPath = tableView.indexPathForSelectedRow {
-            destinationVC.selectedCategory = categoryArray[indexPath.row]
+            destinationVC.selectedCategory = categoryArray?[indexPath.row]
         }
     }
     
@@ -71,15 +71,13 @@ class CategoryViewController: UITableViewController {
         self.tableView.reloadData()
     }
     
-//    func loadCategories(with request: NSFetchRequest<Category> = Category.fetchRequest()) {
-//        do {
-//            try categoryArray = self.context.fetch(request)
-//        } catch {
-//            print("!!! ERROR - Unable to fetch context: \(error)")
-//        }
-//
-//        self.tableView.reloadData()
-//    }
+    func loadCategories() {
+        
+        categoryArray = realm.objects(Category.self)
+        
+        tableView.reloadData()
+        
+    }
     
     // MARK: Add new categories
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
@@ -91,7 +89,6 @@ class CategoryViewController: UITableViewController {
             let newCategory = Category()
             
             newCategory.name = textField.text!
-            self.categoryArray.append(newCategory)
             
             self.saveCategory(category: newCategory)
         }
